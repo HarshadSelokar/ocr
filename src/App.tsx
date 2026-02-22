@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Upload, 
   FileText, 
@@ -11,7 +11,9 @@ import {
   Activity,
   ChevronRight,
   Download,
-  History
+  History,
+  Trash2,
+  X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { processPrescriptionImage, PrescriptionResult } from './services/gemini';
@@ -24,7 +26,34 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PrescriptionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [savedFiles, setSavedFiles] = useState<string[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load results from localStorage on mount
+  useEffect(() => {
+    const savedResult = localStorage.getItem('lastPrescriptionResult');
+    if (savedResult) {
+      try {
+        setResult(JSON.parse(savedResult));
+      } catch (err) {
+        console.error('Failed to load saved result:', err);
+      }
+    }
+    // Load saved files list
+    loadSavedFiles();
+  }, []);
+
+  const loadSavedFiles = async () => {
+    try {
+      const response = await fetch('/api/results');
+      const data = await response.json();
+      setSavedFiles(data.results || []);
+    } catch (err) {
+      console.error('Failed to load saved files:', err);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -38,10 +67,23 @@ export default function App() {
     const reader = new FileReader();
     reader.onloadend = () => {
       setImage(reader.result as string);
-      setResult(null);
       setError(null);
+      // Don't clear result here - keep showing previous result if exists
     };
     reader.readAsDataURL(file);
+  };
+
+  const downloadFile = (filename: string) => {
+    // Create a link to download the file
+    window.location.href = `/api/results/${filename}`;
+  };
+
+  const clearCurrentResult = () => {
+    setResult(null);
+    localStorage.removeItem('lastPrescriptionResult');
+    setSaveMessage(null);
+    setImage(null);
+    setFile(null);
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -57,16 +99,33 @@ export default function App() {
 
     setLoading(true);
     setError(null);
+    setSaveMessage(null);
     try {
       const data = await processPrescriptionImage(image, file.type);
       setResult(data);
       
-      // Save to backend
+      // Save to localStorage as backup
+      localStorage.setItem('lastPrescriptionResult', JSON.stringify(data));
+      localStorage.setItem('lastPrescriptionTimestamp', new Date().toISOString());
+      
+      // Save to backend database
       await fetch('/api/prescriptions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data }),
       });
+
+      // Save as JSON file
+      const saveResponse = await fetch('/api/save-result', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ result: data }),
+      });
+
+      if (saveResponse.ok) {
+        const saveData = await saveResponse.json();
+        setSaveMessage(`✓ Result saved to: ${saveData.filename}`);
+      }
     } catch (err) {
       console.error(err);
       setError('Failed to process prescription. Please try a clearer image.');
@@ -137,15 +196,7 @@ export default function App() {
             </div>
             <span className="font-bold text-xl tracking-tight">RxScan AI</span>
           </div>
-          <nav className="flex items-center gap-6 text-sm font-medium text-neutral-500">
-            <button className="hover:text-black transition-colors flex items-center gap-1">
-              <History className="w-4 h-4" />
-              History
-            </button>
-            <button className="bg-black text-white px-4 py-2 rounded-full hover:bg-neutral-800 transition-all">
-              Sign In
-            </button>
-          </nav>
+         
         </div>
       </header>
 
@@ -220,6 +271,17 @@ export default function App() {
               >
                 <AlertCircle className="w-5 h-5 shrink-0" />
                 <p className="text-sm">{error}</p>
+              </motion.div>
+            )}
+
+            {saveMessage && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex gap-3 text-emerald-700"
+              >
+                <CheckCircle2 className="w-5 h-5 shrink-0 flex-shrink-0" />
+                <p className="text-sm">{saveMessage}</p>
               </motion.div>
             )}
           </div>
@@ -311,12 +373,29 @@ export default function App() {
                     ))}
                   </div>
 
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={handleExportPDF}
+                      className="flex-1 py-4 border-2 border-black rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-black hover:text-white transition-all"
+                    >
+                      <Download className="w-5 h-5" />
+                      Export as PDF
+                    </button>
+                    <button 
+                      onClick={clearCurrentResult}
+                      className="flex-1 py-4 border-2 border-red-200 text-red-600 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-red-50 transition-all"
+                    >
+                      <X className="w-5 h-5" />
+                      Clear
+                    </button>
+                  </div>
+
                   <button 
-                    onClick={handleExportPDF}
-                    className="w-full py-4 border-2 border-black rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-black hover:text-white transition-all"
+                    onClick={() => setShowHistory(!showHistory)}
+                    className="w-full py-3 bg-gradient-to-r from-emerald-50 to-emerald-100 border border-emerald-200 text-emerald-700 rounded-xl font-bold flex items-center justify-center gap-2 hover:from-emerald-100 hover:to-emerald-200 transition-all"
                   >
-                    <Download className="w-5 h-5" />
-                    Export as PDF
+                    <History className="w-5 h-5" />
+                    View History ({savedFiles.length})
                   </button>
                 </motion.div>
               ) : (
@@ -332,6 +411,86 @@ export default function App() {
           </div>
         </div>
       </main>
+
+      {/* History Modal */}
+      <AnimatePresence>
+        {showHistory && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowHistory(false)}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            >
+              <div className="sticky top-0 bg-white border-b border-neutral-200 p-6 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <History className="w-6 h-6 text-emerald-600" />
+                  <h2 className="text-2xl font-bold">Saved Results</h2>
+                </div>
+                <button
+                  onClick={() => setShowHistory(false)}
+                  className="p-2 hover:bg-neutral-100 rounded-lg transition-all"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="p-6 space-y-3">
+                {savedFiles.length === 0 ? (
+                  <div className="text-center py-12 text-neutral-400">
+                    <FileText className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                    <p>No saved results yet</p>
+                  </div>
+                ) : (
+                  savedFiles.map((filename) => (
+                    <motion.div
+                      key={filename}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="flex items-center justify-between p-4 bg-emerald-50 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all group"
+                    >
+                      <div className="flex-1">
+                        <p className="font-medium text-emerald-900">{filename}</p>
+                        <p className="text-xs text-emerald-600 mt-1">
+                          {new Date(filename.match(/\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}/) || '').toLocaleString()}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => downloadFile(filename)}
+                        className="p-3 bg-white border border-emerald-300 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+
+              <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-200 p-6 flex gap-3">
+                <button
+                  onClick={() => loadSavedFiles()}
+                  className="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-all"
+                >
+                  Refresh List
+                </button>
+                <button
+                  onClick={() => setShowHistory(false)}
+                  className="flex-1 py-3 bg-neutral-200 text-neutral-700 rounded-xl font-bold hover:bg-neutral-300 transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="max-w-5xl mx-auto px-6 py-12 border-t border-black/5 text-center text-neutral-400 text-sm">

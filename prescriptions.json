@@ -1,0 +1,343 @@
+[
+  {
+    "id": 1771760922440,
+    "data": {
+      "status": "success",
+      "confidence": 0.98,
+      "extracted_text": "DEA# GB 05455616 LIC # 976269 MEDICAL CENTRE 824 14th Street New York, NY 91743, USA NAME John Smith AGE 34 ADDRESS 162 Example St, NY DATE 09-11-12 RX Betaloc 100mg - 1 tab BID Dorzolamidum 10 mg - 1 tab BID Cimetidine 50 mg - 2 tabs TID Oxprelol 50mg - 1 tab QD Dr. Steve Johnson signature LABEL REFILL 0 1 2 3 4 5 PRN WTX-N-PRESC-T 1-889-422-0700",
+      "medications": [
+        {
+          "name": "Betaloc",
+          "dosage": "100mg",
+          "frequency": "BID (twice a day)",
+          "duration": "",
+          "quantity": 1,
+          "instructions": "Take 1 tablet twice a day",
+          "confidence": 0.99
+        },
+        {
+          "name": "Dorzolamidum",
+          "dosage": "10 mg",
+          "frequency": "BID (twice a day)",
+          "duration": "",
+          "quantity": 1,
+          "instructions": "Take 1 tablet twice a day",
+          "confidence": 0.99
+        },
+        {
+          "name": "Cimetidine",
+          "dosage": "50 mg",
+          "frequency": "TID (three times a day)",
+          "duration": "",
+          "quantity": 2,
+          "instructions": "Take 2 tablets three times a day",
+          "confidence": 0.99
+        },
+        {
+          "name": "Oxprelol",
+          "dosage": "50mg",
+          "frequency": "QD (once a day)",
+          "duration": "",
+          "quantity": 1,
+          "instructions": "Take 1 tablet once a day",
+          "confidence": 0.99
+        }
+      ],
+      "metadata": {
+        "prescription_date": "2012-09-11",
+        "doctor_name": "Dr. Steve Johnson",
+        "image_quality": "good",
+        "has_handwriting": true
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T11:48:42.440Z"
+  },
+  {
+    "id": 1771760974304,
+    "data": {
+      "status": "success",
+      "confidence": 0.95,
+      "extracted_text": "DEA# GB 05455616 LIC # 976269 MEDICAL CENTRE 824 14th Street New York, NY 91743, USA NAME John Smith AGE 34 ADDRESS 162 Example St, NY DATE 09-11-12 Rx Betaloc 100mg - 1 tab BID Dorzolamidum 10 mg - 1 tab BID Cimetidine 50 mg - 2 tabs TID Oxprelol 50mg - 1 tab QD Dr. Steve Johnson signature LABEL REFILL 0 1 2 3 4 5 PRN WTX-N-PRESC-T 1-889-422-0700",
+      "medications": [
+        {
+          "name": "Betaloc",
+          "dosage": "100mg",
+          "frequency": "BID",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "1 tab",
+          "confidence": 0.98
+        },
+        {
+          "name": "Dorzolamidum",
+          "dosage": "10 mg",
+          "frequency": "BID",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "1 tab",
+          "confidence": 0.98
+        },
+        {
+          "name": "Cimetidine",
+          "dosage": "50 mg",
+          "frequency": "TID",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "2 tabs",
+          "confidence": 0.98
+        },
+        {
+          "name": "Oxprelol",
+          "dosage": "50mg",
+          "frequency": "QD",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "1 tab",
+          "confidence": 0.98
+        }
+      ],
+      "metadata": {
+        "prescription_date": "2012-09-11",
+        "doctor_name": "Steve Johnson",
+        "image_quality": "good",
+        "has_handwriting": true
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T11:49:34.304Z"
+  },
+  {
+    "id": 1771761585807,
+    "data": {
+      "status": "success",
+      "confidence": 0.95,
+      "extracted_text": "Dr. [Redacted] M.B.B.S., M.D., M.S. | Reg. No: 270988 Ph: 0[Redacted] Timing: 09:00 AM - 02:00 PM | Closed: Thursday Date: 26-07-2019 ID: 14 - DEMO PATIENT (M) / 8 Y Address: [Redacted] Referred By: Dr. Demo Diagnosis: * FEVER SAMPLE PRESCIPTION Medicine Name Dosage Duration 1) TAB. DEMO MEDICINE 1 1 সকাল, ১ রাত (খাওয়ার আগে) 10 দিন (সব মিলিয়ে: ২০ গুলি) 2) CAP. DEMO MEDICINE 2 1 সকাল, ১ রাত (খাওয়ার আগে) 10 দিন (সব মিলিয়ে: ২০ ক্যাপসুল) 3) TAB. DEMO MEDICINE 3 1 সকাল, ১ দুপুর, ১ সন্ধে, ১ রাত (খাওয়ার পরে) 10 দিন (সব মিলিয়ে: ৪০ গুলি) 4) TAB. DEMO MEDICINE 4 1/2 সকাল, ১/2 রাত (খাওয়ার পরে) 10 দিন (সব মিলিয়ে: ১০ গুলি) Advice Given: * DRINK BOILED WATER পরের সাক্ষাৎকার: 10-08-2019 THIS IS HOW A PRESCIPTION WELL GET GENERATED USING MYOPD SOFTWARE Dr. [Redacted] M.B.B.S., M.D., M.S.",
+      "medications": [
+        {
+          "name": "TAB. DEMO MEDICINE 1",
+          "dosage": "1-0-1",
+          "frequency": "twice a day",
+          "duration": "10 days",
+          "quantity": 20,
+          "instructions": "before food (খাওয়ার আগে)",
+          "confidence": 0.98
+        },
+        {
+          "name": "CAP. DEMO MEDICINE 2",
+          "dosage": "1-0-1",
+          "frequency": "twice a day",
+          "duration": "10 days",
+          "quantity": 20,
+          "instructions": "before food (খাওয়ার আগে)",
+          "confidence": 0.98
+        },
+        {
+          "name": "TAB. DEMO MEDICINE 3",
+          "dosage": "1-1-1-1",
+          "frequency": "four times a day",
+          "duration": "10 days",
+          "quantity": 40,
+          "instructions": "after food (খাওয়ার পরে)",
+          "confidence": 0.98
+        },
+        {
+          "name": "TAB. DEMO MEDICINE 4",
+          "dosage": "1/2-0-1/2",
+          "frequency": "twice a day",
+          "duration": "10 days",
+          "quantity": 10,
+          "instructions": "after food (খাওয়ার পরে)",
+          "confidence": 0.98
+        }
+      ],
+      "metadata": {
+        "prescription_date": "2019-07-26",
+        "doctor_name": "Redacted (Not clearly legible)",
+        "image_quality": "good",
+        "has_handwriting": false
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T11:59:45.807Z"
+  },
+  {
+    "id": 1771761855066,
+    "data": {
+      "status": "success",
+      "confidence": 0.98,
+      "extracted_text": "DEA# GB 05455616 LIC # 976269 MEDICAL CENTRE 824 14th Street New York, NY 91743, USA NAME John Smith AGE 34 ADDRESS 162 Example St, NY DATE 09-11-12 Rx Betaloc 100mg - 1 tab BID Dorzolamidum 10 mg - 1 tab BID Cimetidine 50 mg - 2 tabs TID Oxprelol 50mg - 1 tab QD Dr. Steve Johnson signature LABEL REFILL 0 1 2 3 4 5 PRN WTX-N-PRESC-T 1-889-422-0700",
+      "medications": [
+        {
+          "name": "Betaloc",
+          "dosage": "100mg",
+          "frequency": "BID",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "1 tab BID",
+          "confidence": 0.98
+        },
+        {
+          "name": "Dorzolamidum",
+          "dosage": "10 mg",
+          "frequency": "BID",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "1 tab BID",
+          "confidence": 0.98
+        },
+        {
+          "name": "Cimetidine",
+          "dosage": "50 mg",
+          "frequency": "TID",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "2 tabs TID",
+          "confidence": 0.98
+        },
+        {
+          "name": "Oxprelol",
+          "dosage": "50mg",
+          "frequency": "QD",
+          "duration": "",
+          "quantity": 0,
+          "instructions": "1 tab QD",
+          "confidence": 0.98
+        }
+      ],
+      "metadata": {
+        "prescription_date": "2012-09-11",
+        "doctor_name": "Dr. Steve Johnson",
+        "image_quality": "good",
+        "has_handwriting": true
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T12:04:15.066Z"
+  },
+  {
+    "id": 1771761989276,
+    "data": {
+      "status": "success",
+      "confidence": 0.98,
+      "extracted_text": "DEA# GB 05455616 LIC # 976269 MEDICAL CENTRE 824 14th Street New York, NY 91743, USA NAME John Smith AGE 34 ADDRESS 162 Example St, NY DATE 09-11-12 Rx Betaloc 100mg - 1 tab BID Dorzolamidum 10 mg - 1 tab BID Cimetidine 50 mg - 2 tabs TID Oxprelol 50mg - 1 tab QD Dr. Steve Johnson signature LABEL REFILL 0 (1) 2 3 4 5 PRN WTX-N-PRESC-T 1-889-422-0700",
+      "medications": [
+        {
+          "name": "Betaloc",
+          "dosage": "100mg",
+          "frequency": "BID",
+          "duration": "",
+          "quantity": 1,
+          "instructions": "1 tab BID",
+          "confidence": 0.99
+        },
+        {
+          "name": "Dorzolamidum",
+          "dosage": "10 mg",
+          "frequency": "BID",
+          "duration": "",
+          "quantity": 1,
+          "instructions": "1 tab BID",
+          "confidence": 0.99
+        },
+        {
+          "name": "Cimetidine",
+          "dosage": "50 mg",
+          "frequency": "TID",
+          "duration": "",
+          "quantity": 2,
+          "instructions": "2 tabs TID",
+          "confidence": 0.99
+        },
+        {
+          "name": "Oxprelol",
+          "dosage": "50mg",
+          "frequency": "QD",
+          "duration": "",
+          "quantity": 1,
+          "instructions": "1 tab QD",
+          "confidence": 0.99
+        }
+      ],
+      "metadata": {
+        "prescription_date": "2012-09-11",
+        "doctor_name": "Dr. Steve Johnson",
+        "image_quality": "good",
+        "has_handwriting": true
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T12:06:29.276Z"
+  },
+  {
+    "id": 1771762049675,
+    "data": {
+      "status": "success",
+      "confidence": 0.95,
+      "extracted_text": "Reynaldo O. Joson, M.D. MANILA DOCTORS HOSPITAL Suite 301, Medical Arts Center, U.N. Avenue Ermita, Manila Telephone # 524-30-11 Loc 4100; 522-47-13. Date 12-6, 2014. Ma. Th... 56/F. Concern: Neck mass - noted 2 wks ago no pain. Physical Exam Findings (Neck): ~ 2cm moves w/ swallowing feels solid / firm no tenderness no redness. PR 84/min. Thyroid Mass Right Lobe. Cancer vs Not Cancer. Options for further Diagnostic Test: 1. Biopsy, needle 90% yield. 2. Ultrasound Thyroid gland. Thyroid Disorder: Functional vs Structural. masses: Cancer vs Not cancer. Lic. # 44609.",
+      "medications": [],
+      "metadata": {
+        "prescription_date": "2014-12-06",
+        "doctor_name": "Reynaldo O. Joson, M.D.",
+        "image_quality": "good",
+        "has_handwriting": true
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T12:07:29.675Z"
+  },
+  {
+    "id": 1771762097521,
+    "data": {
+      "status": "success",
+      "confidence": 0.98,
+      "extracted_text": "Dr. O... M.B.B.S., M.D., M.S. | Reg. No: 270988 | Date: 26-07-2019 ID: 14 - DEMO PATIENT (M) / 8 Y Diagnosis: FEVER SAMPLE PRESCIPTION Medicine Name Dosage Duration 1) TAB. DEMO MEDICINE 1 1 সকাল, 1 রাত (খাওয়ার আগে) 10 দিন (সব মিলিয়ে: 20 গুলি) 2) CAP. DEMO MEDICINE 2 1 সকাল, 1 রাত (খাওয়ার আগে) 10 দিন (সব মিলিয়ে: 20 ক্যাপসুল) 3) TAB. DEMO MEDICINE 3 1 সকাল, 1 দুপুর, 1 সন্ধে, 1 রাত (খাওয়ার পরে) 10 দিন (সব মিলিয়ে: 40 গুলি) 4) TAB. DEMO MEDICINE 4 1/2 সকাল, 1/2 রাত (খাওয়ার পরে) 10 দিন (সব মিলিয়ে: 10 গুলি) Advice Given: * DRINK BOILED WATER পরের সাক্ষাৎকার: 10-08-2019 Signature Dr. O... M.B.B.S., M.D., M.S.",
+      "medications": [
+        {
+          "name": "TAB. DEMO MEDICINE 1",
+          "dosage": "1 tablet",
+          "frequency": "twice a day (morning, night)",
+          "duration": "10 days",
+          "quantity": 20,
+          "instructions": "Before meals (খাওয়ার আগে)",
+          "confidence": 0.98
+        },
+        {
+          "name": "CAP. DEMO MEDICINE 2",
+          "dosage": "1 capsule",
+          "frequency": "twice a day (morning, night)",
+          "duration": "10 days",
+          "quantity": 20,
+          "instructions": "Before meals (খাওয়ার আগে)",
+          "confidence": 0.98
+        },
+        {
+          "name": "TAB. DEMO MEDICINE 3",
+          "dosage": "1 tablet",
+          "frequency": "four times a day (morning, noon, evening, night)",
+          "duration": "10 days",
+          "quantity": 40,
+          "instructions": "After meals (খাওয়ার পরে)",
+          "confidence": 0.98
+        },
+        {
+          "name": "TAB. DEMO MEDICINE 4",
+          "dosage": "1/2 tablet",
+          "frequency": "twice a day (morning, night)",
+          "duration": "10 days",
+          "quantity": 10,
+          "instructions": "After meals (খাওয়ার পরে)",
+          "confidence": 0.98
+        }
+      ],
+      "metadata": {
+        "prescription_date": "2019-07-26",
+        "doctor_name": "Dr. O",
+        "image_quality": "good",
+        "has_handwriting": true
+      },
+      "errors": []
+    },
+    "created_at": "2026-02-22T12:08:17.521Z"
+  }
+]

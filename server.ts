@@ -45,12 +45,17 @@ async function startServer() {
     fs.mkdirSync("uploads");
   }
 
+  // Ensure results directory exists
+  if (!fs.existsSync("results")) {
+    fs.mkdirSync("results");
+  }
+
   // API Routes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
   });
 
-  // Endpoint to save processed prescription
+  // Endpoint to save processed prescription to database
   app.post("/api/prescriptions", (req, res) => {
     try {
       const { data } = req.body;
@@ -59,6 +64,67 @@ async function startServer() {
     } catch (error) {
       console.error("JSON DB error:", error);
       res.status(500).json({ error: "Failed to save prescription" });
+    }
+  });
+
+  // Endpoint to save prescription as individual JSON file
+  app.post("/api/save-result", express.json({ limit: '50mb' }), (req, res) => {
+    try {
+      const { result } = req.body;
+      if (!result) {
+        return res.status(400).json({ error: "No result data provided" });
+      }
+      
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, -5);
+      const doctorName = result.metadata?.doctor_name?.replace(/\s+/g, "_") || "unknown";
+      const filename = `prescription_${doctorName}_${timestamp}.json`;
+      const filepath = path.join("results", filename);
+      
+      fs.writeFileSync(filepath, JSON.stringify(result, null, 2));
+      
+      res.json({ 
+        success: true, 
+        filename: filename,
+        filepath: filepath,
+        message: `Result saved to ${filename}` 
+      });
+    } catch (error) {
+      console.error("Save result error:", error);
+      res.status(500).json({ error: "Failed to save result" });
+    }
+  });
+
+  // Endpoint to list saved results
+  app.get("/api/results", (req, res) => {
+    try {
+      if (!fs.existsSync("results")) {
+        return res.json({ results: [] });
+      }
+      const files = fs.readdirSync("results").filter(f => f.endsWith(".json"));
+      res.json({ results: files });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch results" });
+    }
+  });
+
+  // Endpoint to download a result file
+  app.get("/api/results/:filename", (req, res) => {
+    try {
+      const filename = path.basename(req.params.filename);
+      const filepath = path.join("results", filename);
+      
+      // Prevent directory traversal
+      if (!filepath.startsWith(path.resolve("results"))) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      
+      if (fs.existsSync(filepath)) {
+        res.download(filepath);
+      } else {
+        res.status(404).json({ error: "File not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Failed to download file" });
     }
   });
 
